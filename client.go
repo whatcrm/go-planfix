@@ -2,6 +2,7 @@ package goplanfix
 
 import (
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
 	"time"
@@ -16,10 +17,10 @@ type Client struct {
 	tokenExpiresAt time.Time
 }
 
-func NewClient(token string) *Client {
+func NewClient(token, domain string) *Client {
 	return &Client{
 		Client:  &http.Client{Timeout: utils.DefaultTimeout},
-		APIBase: utils.BaseURL,
+		APIBase: fmt.Sprintf(utils.BaseURL, domain),
 		Token:   token,
 	}
 }

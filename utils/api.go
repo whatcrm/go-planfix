@@ -1,7 +1,7 @@
 package utils
 
 const (
-	BaseURL = "https://megahome.planfix.com/rest"
+	BaseURL = "https://%s.planfix.com/rest"
 
 	ContactEndpoint          = "/contact/"
 	ContactByIDEndpoint      = "/contact/%d"
