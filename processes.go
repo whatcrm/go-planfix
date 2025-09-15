@@ -3,8 +3,8 @@ package goplanfix
 import (
 	"context"
 	"fmt"
-	"go-planfix/models"
-	"go-planfix/utils"
+	"github.com/whatcrm/go-planfix/models"
+	"github.com/whatcrm/go-planfix/utils"
 	"net/http"
 )
 

@@ -13,9 +13,7 @@ type DirectoryGetResponse struct {
 }
 
 type DirectoryRequest struct {
-	Offset   int    `json:"offset,omitempty"`
-	PageSize int    `json:"pageSize,omitempty"`
-	Fields   string `json:"fields,omitempty"`
+	CommonListParams
 }
 
 type DirectoryListResponse struct {

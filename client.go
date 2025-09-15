@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"go-planfix/utils"
+	"github.com/whatcrm/go-planfix/utils"
 )
 
 type Client struct {

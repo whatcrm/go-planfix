@@ -75,21 +75,6 @@ type CommentResponse struct {
 	ChangeStatus         *CommentChangeStatus `json:"changeStatus,omitempty"`
 }
 
-type PersonResponse struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
-}
-
-type PeopleResponse struct {
-	Users  []PersonResponse `json:"users,omitempty"`
-	Groups []GroupResponse  `json:"groups,omitempty"`
-}
-
-type GroupResponse struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
 type Reminder struct {
 	// TODO: Add reminder fields based on swagger schema
 }
@@ -122,9 +107,7 @@ type CommentListResponse struct {
 }
 
 type ContactCommentListRequest struct {
-	Offset      int    `json:"offset,omitempty"`
-	PageSize    int    `json:"pageSize,omitempty"`
-	Fields      string `json:"fields,omitempty"`
+	CommonListParams
 	TypeList    string `json:"typeList,omitempty"`
 	ResultOrder []struct {
 		Field     string `json:"field"`

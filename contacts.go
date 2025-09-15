@@ -10,8 +10,8 @@ import (
 	"strconv"
 	"strings"
 
-	"go-planfix/models"
-	"go-planfix/utils"
+	"github.com/whatcrm/go-planfix/models"
+	"github.com/whatcrm/go-planfix/utils"
 )
 
 func (c *Client) GetContactByID(ctx context.Context, contactID int, fields ...string) (*models.ContactGetResponse, error) {
@@ -63,9 +63,11 @@ func (c *Client) GetContactOrCompanyList(ctx context.Context, fields []string, p
 	requestURL := c.APIBase + utils.ContactListEndpoint
 
 	request := &models.ContactListRequest{
-		Offset:   0,
-		PageSize: pageSize,
-		Fields:   strings.Join(fields, ","),
+		CommonListParams: models.CommonListParams{
+			Offset:   0,
+			PageSize: pageSize,
+			Fields:   strings.Join(fields, ","),
+		},
 	}
 
 	jsonBody, err := json.Marshal(request)

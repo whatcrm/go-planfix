@@ -22,15 +22,11 @@ type DataTagEntry struct {
 }
 
 type DataTagListRequest struct {
-	Offset   int    `json:"offset,omitempty"`
-	PageSize int    `json:"pageSize,omitempty"`
-	Fields   string `json:"fields,omitempty"`
+	CommonListParams
 }
 
 type DataTagEntryListRequest struct {
-	Offset    int                    `json:"offset,omitempty"`
-	PageSize  int                    `json:"pageSize,omitempty"`
-	Fields    string                 `json:"fields,omitempty"`
+	CommonListParams
 	TaskId    int                    `json:"taskId,omitempty"`
 	ContactId string                 `json:"contactId,omitempty"`
 	Filters   []ComplexDataTagFilter `json:"filters,omitempty"`

@@ -15,11 +15,8 @@ type Project struct {
 }
 
 type ProjectListRequest struct {
-	Offset   int                    `json:"offset,omitempty"`
-	PageSize int                    `json:"pageSize,omitempty"`
-	Fields   string                 `json:"fields,omitempty"`
-	SourceId string                 `json:"sourceId,omitempty"`
-	Filters  []ComplexProjectFilter `json:"filters,omitempty"`
+	CommonListParams
+	Filters []ComplexProjectFilter `json:"filters,omitempty"`
 }
 
 type ComplexProjectFilter struct {

@@ -37,10 +37,7 @@ type Contact struct {
 }
 
 type ContactListRequest struct {
-	Offset   int    `json:"offset,omitempty"`
-	PageSize int    `json:"pageSize,omitempty"`
-	Fields   string `json:"fields,omitempty"`
-	SourceId string `json:"sourceId,omitempty"`
+	CommonListParams
 }
 
 type ContactListResponse struct {

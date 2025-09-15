@@ -66,12 +66,9 @@ type Task struct {
 }
 
 type TaskListRequest struct {
-	Offset   int                 `json:"offset,omitempty"`
-	PageSize int                 `json:"pageSize,omitempty"`
+	CommonListParams
 	FilterId string              `json:"filterId,omitempty"`
 	Filters  []ComplexTaskFilter `json:"filters,omitempty"`
-	Fields   string              `json:"fields,omitempty"`
-	SourceId string              `json:"sourceId,omitempty"`
 }
 
 type ComplexTaskFilter struct {
@@ -89,7 +86,5 @@ type ComplexTaskFilter struct {
 }
 
 type ChecklistRequest struct {
-	Offset   int    `json:"offset,omitempty"`
-	PageSize int    `json:"pageSize,omitempty"`
-	Fields   string `json:"fields,omitempty"`
+	CommonListParams
 }

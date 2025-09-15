@@ -58,12 +58,9 @@ type User struct {
 }
 
 type UserListRequest struct {
-	Offset     int                 `json:"offset,omitempty"`
-	PageSize   int                 `json:"pageSize,omitempty"`
+	CommonListParams
 	OnlyActive bool                `json:"onlyActive,omitempty"`
 	PrefixedId bool                `json:"prefixedId,omitempty"`
-	Fields     string              `json:"fields,omitempty"`
-	SourceId   string              `json:"sourceId,omitempty"`
 	Filters    []ComplexUserFilter `json:"filters,omitempty"`
 }
 

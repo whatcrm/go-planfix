@@ -13,9 +13,7 @@ type ReportGetResponse struct {
 }
 
 type ReportListRequest struct {
-	Offset   int    `json:"offset,omitempty"`
-	PageSize int    `json:"pageSize,omitempty"`
-	Fields   string `json:"fields,omitempty"`
+	CommonListParams
 }
 
 type ReportListResponse struct {
@@ -50,9 +48,7 @@ type ReportSaveListResponse struct {
 }
 
 type ReportSaveDataRequest struct {
-	Offset   int    `json:"offset,omitempty"`
-	PageSize int    `json:"pageSize,omitempty"`
-	Fields   string `json:"fields,omitempty"`
+	CommonListParams
 }
 
 type ReportSaveDataItem struct {
