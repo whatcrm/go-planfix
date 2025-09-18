@@ -3,13 +3,13 @@ package main
 import (
 	"context"
 	"fmt"
-	goplanfix "go-planfix"
+	goplanfix "github.com/whatcrm/go-planfix"
 	"log"
 )
 
 func main() {
 	token := "5fd5c11f9ad5ec21ddffd43a26332241"
-	client := goplanfix.NewClient(token)
+	_, client := goplanfix.NewClient(token)
 	ctx := context.Background()
 
 	//fmt.Println("1. Создание простого контакта")

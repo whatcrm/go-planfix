@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	goplanfix "go-planfix"
+	goplanfix "github.com/whatcrm/go-planfix"
 )
 
 func testMonitoring() {

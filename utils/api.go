@@ -4,7 +4,7 @@ const (
 	BaseURL = "https://%s.planfix.com/rest"
 
 	ContactEndpoint          = "/contact/"
-	ContactByIDEndpoint      = "/contact/%d"
+	ContactByIDEndpoint      = "/contact/%s"
 	ContactListEndpoint      = "/contact/list"
 	ContactImportEndpoint    = "/contact/import"
 	ContactCommentEndpoint   = "/contact/%s/comments"
@@ -58,7 +58,7 @@ const (
 	DirectoryEntryByKeyEndpoint  = "/directory/%d/entry/%d"
 	DirectoryEntriesListEndpoint = "/directory/%d/entry/list"
 	DirectoryGroupsEndpoint      = "/directory/groups"
-	DirectoryFiltersEndpoint     = "/directory/%d/filters"
+	DirectoryFiltersEndpoint     = "/directory/%s/filters"
 
 	ProcessTaskEndpoint         = "/process/task"
 	ProcessTaskStatusesEndpoint = "/process/task/%d/statuses"

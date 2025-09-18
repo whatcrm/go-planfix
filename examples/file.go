@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	goplanfix "go-planfix"
-	"go-planfix/models"
+	goplanfix "github.com/whatcrm/go-planfix"
+	"github.com/whatcrm/go-planfix/models"
 )
 
 func testFiles() {

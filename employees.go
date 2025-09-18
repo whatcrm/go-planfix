@@ -58,7 +58,7 @@ func (c *Client) UpdateUser(ctx context.Context, userID string, user *models.Use
 	return &response, nil
 }
 
-func (c *Client) GetListUsers(ctx context.Context, request *models.UserListRequest) (*models.PaginatedResponse, error) {
+func (c *Client) GetListUsers(ctx context.Context, request *models.UserListRequest) (*models.UserListResponse, error) {
 	requestURL := c.APIBase + utils.UserListEndpoint
 
 	jsonBody, err := json.Marshal(request)
@@ -71,7 +71,7 @@ func (c *Client) GetListUsers(ctx context.Context, request *models.UserListReque
 		return nil, err
 	}
 
-	var response models.PaginatedResponse
+	var response models.UserListResponse
 	err = c.SendWithAccessToken(req, &response)
 	if err != nil {
 		return nil, err

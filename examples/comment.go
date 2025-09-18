@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 
-	goplanfix "go-planfix"
+	goplanfix "github.com/whatcrm/go-planfix"
 )
 
 func testComments() {

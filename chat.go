@@ -5,11 +5,11 @@ import (
 	"net/url"
 	"strings"
 
-	"go-planfix/models"
-	"go-planfix/utils"
+	"github.com/whatcrm/go-planfix/models"
+	"github.com/whatcrm/go-planfix/utils"
 )
 
-// ChatSendNewMessage отправляет новое сообщение в чат
+// ChatSendNewMessage отправляет новое сообщение в чат из стороннего чата в планфикс
 func (c *Client) ChatSendNewMessage(req *models.ChatMessageRequest) error {
 	req.Cmd = "newMessage"
 

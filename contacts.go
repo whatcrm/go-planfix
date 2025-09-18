@@ -14,7 +14,7 @@ import (
 	"github.com/whatcrm/go-planfix/utils"
 )
 
-func (c *Client) GetContactByID(ctx context.Context, contactID int, fields ...string) (*models.ContactGetResponse, error) {
+func (c *Client) GetContactByID(ctx context.Context, contactID string, fields ...string) (*models.ContactGetResponse, error) {
 	requestURL := c.APIBase + fmt.Sprintf(utils.ContactByIDEndpoint, contactID)
 
 	if len(fields) > 0 {

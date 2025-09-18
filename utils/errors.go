@@ -7,24 +7,24 @@ import (
 )
 
 type APIError struct {
-	Code    int    `json:"code"`
-	Message string `json:"message"`
-	Details string `json:"details,omitempty"`
+	Result   string `json:"result"`
+	Code     int    `json:"code"`
+	ErrorMsg string `json:"error"`
 }
 
 func (e *APIError) Error() string {
 	description := GetErrorDescription(e.Code)
 	if description != "" {
-		if e.Details != "" {
-			return fmt.Sprintf("Planfix API Error %d: %s - %s", e.Code, description, e.Details)
+		if e.ErrorMsg != "" {
+			return fmt.Sprintf("Planfix API Error %d: %s - %s", e.Code, description, e.ErrorMsg)
 		}
 		return fmt.Sprintf("Planfix API Error %d: %s", e.Code, description)
 	}
 
-	if e.Details != "" {
-		return fmt.Sprintf("API Error %d: %s - %s", e.Code, e.Message, e.Details)
+	if e.ErrorMsg != "" {
+		return fmt.Sprintf("API Error %d: %s", e.Code, e.ErrorMsg)
 	}
-	return fmt.Sprintf("API Error %d: %s", e.Code, e.Message)
+	return fmt.Sprintf("API Error %d: %s", e.Code, e.Result)
 }
 
 func (e *APIError) GetDescription() string {
@@ -33,78 +33,76 @@ func (e *APIError) GetDescription() string {
 
 func GetErrorDescription(code int) string {
 	errorMessages := map[int]string{
-		// Общие ошибки
-		0:  "Неизвестная ошибка",
-		1:  "Неверный токен",
-		2:  "Токен неактивен",
-		5:  "Доступ к этому методу запрещен для данной области",
-		6:  "Доступ к этому методу/объекту запрещен для пользователя",
-		10: "Аккаунт заблокирован за спам",
-		11: "Аккаунт заморожен",
-		16: "Пользователь неактивен",
-		20: "Подписка не оплачена",
-		21: "Использование API недоступно для бесплатного аккаунта",
-		22: "Исчерпан дневной лимит запросов к REST API",
-		23: "Достигнут лимит аккаунта по количеству контактов",
-		30: "Неверный формат JSON",
-		40: "Отсутствует один из обязательных параметров метода",
-		41: "Неверное значение параметра",
+		0:  "Unknown error",
+		1:  "Invalid token",
+		2:  "The token is not active",
+		5:  "Access to this method for scope is forbidden",
+		6:  "Access to this method/object for the user is forbidden",
+		10: "The account is blocked for spam",
+		11: "Account is frozen",
+		16: "User is inactive",
+		20: "Subscription is not paid",
+		21: "API usage is not available for a free account",
+		22: "The daily limit of requests to the REST API is spent",
+		23: "The account limit for the number of contacts has been reached",
+		30: "Invalid JSON format",
+		40: "One of the mandatory method parameters is missing",
+		41: "Invalid parameter value",
 
-		// Ошибки задач
-		1000: "Задача не существует",
-		1001: "Ошибка добавления задачи",
-		1002: "Ошибка обновления задачи",
+		// Task errors
+		1000: "Task does not exist",
+		1001: "Error adding task",
+		1002: "Error updating task",
 
-		// Ошибки контактов
-		2000: "Контакт не существует",
-		2001: "Ошибка добавления контакта",
-		2002: "Ошибка обновления данных",
-		2003: "При попытке предоставить доступ к Planfix у контакта не установлен email",
-		2004: "Неверный формат email",
-		2005: "Указанный email уже занят",
-		2006: "Полное имя контакта не заполнено",
+		// Contact errors
+		2000: "Contact does not exist",
+		2001: "Error adding contact",
+		2002: "Error updating data",
+		2003: "When attempting to grant access to Planfix, the contact does not have an email set",
+		2004: "Invalid email format",
+		2005: "The email specified is already taken",
+		2006: "Contact's full name is not filled in",
 
-		// Ошибки проектов
-		3000: "Проект не существует",
-		3001: "Ошибка добавления проекта",
-		3002: "Ошибка обновления проекта",
+		// Project errors
+		3000: "Project does not exist",
+		3001: "Error adding project",
+		3002: "Error updating project",
 
-		// Ошибки сотрудников
-		4000: "Сотрудник не существует",
-		4001: "Ошибка добавления сотрудника",
-		4002: "Ошибка обновления данных сотрудника",
-		4003: "Указанный email не уникален",
-		4004: "Неверный формат имени пользователя",
-		4005: "Указанное имя пользователя не уникально",
-		4006: "Полное имя сотрудника не заполнено",
+		// Employee errors
+		4000: "Employee does not exist",
+		4001: "Error adding employee",
+		4002: "Error updating employee data",
+		4003: "The specified email is not unique",
+		4004: "Invalid username format",
+		4005: "The specified username is not unique",
+		4006: "Employee's full name is not filled in",
 
-		// Ошибки комментариев
-		5000: "Комментарий не существует",
-		5001: "Ошибка добавления комментария",
-		5002: "Ошибка обновления данных комментария",
+		// Comment errors
+		5000: "Comment does not exist",
+		5001: "Error adding comment",
+		5002: "Error updating comment data",
 
-		// Ошибки data tags и записей data tag
-		6000: "Data tag не существует",
-		6010: "Запись data tag не существует",
-		6011: "Ошибка добавления записи data tag",
-		6012: "Ошибка обновления записи data tag",
-		6013: "Ошибка удаления записи data tag",
+		// Data tags and data tag records errors
+		6000: "Data tag does not exist",
+		6010: "Data tag record does not exist",
+		6011: "Error adding data tag entry",
+		6012: "Error updating data tag entry",
+		6013: "Error deleting data tag entry",
 
-		// Ошибки файлов
-		7000: "Файл не существует",
-		7001: "Ошибка добавления файла",
-		7002: "Превышен размер загружаемого файла в рамках подписки",
-		7003: "Ошибка удаления файла",
+		// File errors
+		7000: "File does not exist",
+		7001: "Error adding file",
+		7002: "Uploaded file size exceeded within the subscription",
+		7003: "Error deleting file",
 
-		// Ошибки директорий и записей директорий
-		8000: "Директория не существует",
-		8010: "Запись директории не существует",
-		8011: "Ошибка добавления записи директории",
-		8012: "Ошибка обновления записи директории",
-		8013: "Ошибка удаления записи директории",
+		// Directory and directory entries errors
+		8000: "Directory does not exist",
+		8010: "Directory entry does not exist",
+		8011: "Error adding directory entry",
+		8012: "Error updating directory entry",
+		8013: "Error deleting directory entry",
 
-		// Ошибки отчетов
-		9000: "Отчет не существует",
+		9000: "Report does not exist",
 	}
 
 	if message, exists := errorMessages[code]; exists {
