@@ -2,7 +2,6 @@ package goplanfix
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"io"
 	"net/http"
@@ -24,21 +23,6 @@ func NewClient(token, domain string) (*Client, error) {
 		APIBase: fmt.Sprintf(utils.BaseURL, domain),
 		Token:   token,
 	}, nil
-}
-
-func (c *Client) SetToken(token string, tokenExpiresAt time.Time) error {
-	if token == "" {
-		return errors.New("token is required")
-	}
-
-	if !tokenExpiresAt.IsZero() && time.Now().After(tokenExpiresAt) {
-		return errors.New("token has expired")
-	}
-
-	c.Token = token
-	c.tokenExpiresAt = tokenExpiresAt
-
-	return nil
 }
 
 func (c *Client) Send(req *http.Request, v interface{}) error {
@@ -106,4 +90,13 @@ func (c *Client) SendWithAccessToken(req *http.Request, v interface{}) error {
 	}
 
 	return json.NewDecoder(resp.Body).Decode(v)
+}
+
+func (c *Client) SetDomain(domain string) {
+	c.APIBase = fmt.Sprintf(utils.BaseURL, domain)
+}
+
+func (c *Client) SetToken(token string, expiresAt time.Time) {
+	c.Token = token
+	c.tokenExpiresAt = expiresAt
 }
