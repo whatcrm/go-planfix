@@ -92,13 +92,10 @@ func (c *Client) SendWithAccessToken(req *http.Request, v interface{}) error {
 	return json.NewDecoder(resp.Body).Decode(v)
 }
 
-// SetDomain устанавливает домен для API клиента
 func (c *Client) SetDomain(domain string) {
 	c.APIBase = fmt.Sprintf(utils.BaseURL, domain)
 }
 
-// SetToken устанавливает токен для API клиента
-func (c *Client) SetToken(token string, expiresAt time.Time) {
+func (c *Client) SetToken(token string) {
 	c.Token = token
-	c.tokenExpiresAt = expiresAt
 }
