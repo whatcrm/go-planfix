@@ -68,7 +68,7 @@ func (c *Client) ChatSendNewMessage(ctx context.Context, req *models.ChatMessage
 		return err
 	}
 
-	err = c.SendWithAccessToken(httpReq, nil)
+	err = c.Send(httpReq, nil)
 	return err
 }
 
@@ -88,7 +88,7 @@ func (c *Client) ChatGetTask(ctx context.Context, req *models.ChatGetTaskRequest
 	}
 
 	var response models.ChatTaskResponse
-	err = c.SendWithAccessToken(httpReq, &response)
+	err = c.Send(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ func (c *Client) ChatGetContact(ctx context.Context, req *models.ChatGetContactR
 	}
 
 	var response models.ChatContactResponse
-	err = c.SendWithAccessToken(httpReq, &response)
+	err = c.Send(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -152,7 +152,7 @@ func (c *Client) ChatUpdateContact(ctx context.Context, req *models.ChatUpdateCo
 		return err
 	}
 
-	err = c.SendWithAccessToken(httpReq, nil)
+	err = c.Send(httpReq, nil)
 	return err
 }
 
@@ -176,7 +176,7 @@ func (c *Client) ChatMessageStatus(ctx context.Context, req *models.ChatMessageS
 		return err
 	}
 
-	err = c.SendWithAccessToken(httpReq, nil)
+	err = c.Send(httpReq, nil)
 	return err
 }
 
@@ -218,7 +218,7 @@ func (c *Client) ChatSendMessageToExternal(ctx context.Context, externalURL stri
 	}
 
 	var response models.ChatNewMessageResponse
-	err = c.SendWithAccessToken(httpReq, &response)
+	err = c.Send(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -258,7 +258,7 @@ func (c *Client) ChatSendFirstMessageToExternal(ctx context.Context, externalURL
 	}
 
 	var response models.ChatNewMessageResponse
-	err = c.SendWithAccessToken(httpReq, &response)
+	err = c.Send(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
