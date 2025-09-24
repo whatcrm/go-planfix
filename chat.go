@@ -1,6 +1,7 @@
 package goplanfix
 
 import (
+	"context"
 	"net/http"
 	"net/url"
 	"strings"
@@ -10,7 +11,7 @@ import (
 )
 
 // ChatSendNewMessage отправляет новое сообщение в чат из стороннего чата в планфикс
-func (c *Client) ChatSendNewMessage(req *models.ChatMessageRequest) error {
+func (c *Client) ChatSendNewMessage(ctx context.Context, req *models.ChatMessageRequest) error {
 	req.Cmd = "newMessage"
 
 	// Подготавливаем данные для отправки
@@ -62,19 +63,17 @@ func (c *Client) ChatSendNewMessage(req *models.ChatMessageRequest) error {
 		data.Set("data_"+field, value)
 	}
 
-	httpReq, err := http.NewRequest("POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
 	if err != nil {
 		return err
 	}
 
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	err = c.Send(httpReq, nil)
+	err = c.SendWithAccessToken(httpReq, nil)
 	return err
 }
 
 // ChatGetTask получает номер задачи по chatId
-func (c *Client) ChatGetTask(req *models.ChatGetTaskRequest) (*models.ChatTaskResponse, error) {
+func (c *Client) ChatGetTask(ctx context.Context, req *models.ChatGetTaskRequest) (*models.ChatTaskResponse, error) {
 	req.Cmd = "getTask"
 
 	data := url.Values{}
@@ -83,15 +82,13 @@ func (c *Client) ChatGetTask(req *models.ChatGetTaskRequest) (*models.ChatTaskRe
 	data.Set("planfix_token", req.PlanfixToken)
 	data.Set("chatId", req.ChatID)
 
-	httpReq, err := http.NewRequest("POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
 	if err != nil {
 		return nil, err
 	}
 
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
 	var response models.ChatTaskResponse
-	err = c.Send(httpReq, &response)
+	err = c.SendWithAccessToken(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -100,7 +97,7 @@ func (c *Client) ChatGetTask(req *models.ChatGetTaskRequest) (*models.ChatTaskRe
 }
 
 // ChatGetContact получает номер контакта по contactId
-func (c *Client) ChatGetContact(req *models.ChatGetContactRequest) (*models.ChatContactResponse, error) {
+func (c *Client) ChatGetContact(ctx context.Context, req *models.ChatGetContactRequest) (*models.ChatContactResponse, error) {
 	req.Cmd = "getContact"
 
 	data := url.Values{}
@@ -109,15 +106,13 @@ func (c *Client) ChatGetContact(req *models.ChatGetContactRequest) (*models.Chat
 	data.Set("planfix_token", req.PlanfixToken)
 	data.Set("contactId", req.ContactID)
 
-	httpReq, err := http.NewRequest("POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
 	if err != nil {
 		return nil, err
 	}
 
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
 	var response models.ChatContactResponse
-	err = c.Send(httpReq, &response)
+	err = c.SendWithAccessToken(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -126,7 +121,7 @@ func (c *Client) ChatGetContact(req *models.ChatGetContactRequest) (*models.Chat
 }
 
 // ChatUpdateContact обновляет данные контакта
-func (c *Client) ChatUpdateContact(req *models.ChatUpdateContactRequest) error {
+func (c *Client) ChatUpdateContact(ctx context.Context, req *models.ChatUpdateContactRequest) error {
 	req.Cmd = "updateContact"
 
 	data := url.Values{}
@@ -152,19 +147,17 @@ func (c *Client) ChatUpdateContact(req *models.ChatUpdateContactRequest) error {
 		data.Set("contactData", req.ContactData)
 	}
 
-	httpReq, err := http.NewRequest("POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
 	if err != nil {
 		return err
 	}
 
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	err = c.Send(httpReq, nil)
+	err = c.SendWithAccessToken(httpReq, nil)
 	return err
 }
 
 // ChatMessageStatus обновляет статус сообщения
-func (c *Client) ChatMessageStatus(req *models.ChatMessageStatusRequest) error {
+func (c *Client) ChatMessageStatus(ctx context.Context, req *models.ChatMessageStatusRequest) error {
 	req.Cmd = "messageStatus"
 
 	data := url.Values{}
@@ -178,20 +171,18 @@ func (c *Client) ChatMessageStatus(req *models.ChatMessageStatusRequest) error {
 		data.Set("messageStatusText", req.MessageStatusText)
 	}
 
-	httpReq, err := http.NewRequest("POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
 	if err != nil {
 		return err
 	}
 
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
-	err = c.Send(httpReq, nil)
+	err = c.SendWithAccessToken(httpReq, nil)
 	return err
 }
 
 // ChatSendMessageToExternal отправляет сообщение во внешний чат
 // Этот метод используется для отправки сообщений из ПланФикса в сторонний чат
-func (c *Client) ChatSendMessageToExternal(externalURL string, req *models.ChatNewMessageToExternalRequest) (*models.ChatNewMessageResponse, error) {
+func (c *Client) ChatSendMessageToExternal(ctx context.Context, externalURL string, req *models.ChatNewMessageToExternalRequest) (*models.ChatNewMessageResponse, error) {
 	req.Cmd = "newMessage"
 
 	data := url.Values{}
@@ -221,15 +212,13 @@ func (c *Client) ChatSendMessageToExternal(externalURL string, req *models.ChatN
 		data.Add("attachments[url]", url)
 	}
 
-	httpReq, err := http.NewRequest("POST", externalURL, strings.NewReader(data.Encode()))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", externalURL, strings.NewReader(data.Encode()))
 	if err != nil {
 		return nil, err
 	}
 
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
 	var response models.ChatNewMessageResponse
-	err = c.Send(httpReq, &response)
+	err = c.SendWithAccessToken(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
@@ -238,7 +227,7 @@ func (c *Client) ChatSendMessageToExternal(externalURL string, req *models.ChatN
 }
 
 // ChatSendFirstMessageToExternal отправляет первое сообщение во внешний чат по телефону
-func (c *Client) ChatSendFirstMessageToExternal(externalURL string, req *models.ChatNewMessageToExternalRequest) (*models.ChatNewMessageResponse, error) {
+func (c *Client) ChatSendFirstMessageToExternal(ctx context.Context, externalURL string, req *models.ChatNewMessageToExternalRequest) (*models.ChatNewMessageResponse, error) {
 	req.Cmd = "newMessage"
 
 	data := url.Values{}
@@ -263,15 +252,13 @@ func (c *Client) ChatSendFirstMessageToExternal(externalURL string, req *models.
 		data.Add("attachments[url]", url)
 	}
 
-	httpReq, err := http.NewRequest("POST", externalURL, strings.NewReader(data.Encode()))
+	httpReq, err := http.NewRequestWithContext(ctx, "POST", externalURL, strings.NewReader(data.Encode()))
 	if err != nil {
 		return nil, err
 	}
 
-	httpReq.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-
 	var response models.ChatNewMessageResponse
-	err = c.Send(httpReq, &response)
+	err = c.SendWithAccessToken(httpReq, &response)
 	if err != nil {
 		return nil, err
 	}
