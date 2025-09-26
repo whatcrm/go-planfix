@@ -1,5 +1,10 @@
 package models
 
+type ChatAttachment struct {
+	Name string `json:"name" form:"name"`
+	URL  string `json:"url" form:"url"`
+}
+
 type ChatMessageRequest struct {
 	Cmd             string            `json:"cmd" form:"cmd"`                   // тип операции: newMessage
 	ProviderID      string            `json:"providerId" form:"providerId"`     // идентификатор сторонней системы
@@ -15,7 +20,7 @@ type ChatMessageRequest struct {
 	ContactEmail    string            `json:"contactEmail,omitempty" form:"contactEmail"`
 	ContactPhone    string            `json:"contactPhone,omitempty" form:"contactPhone"`
 	ContactData     string            `json:"contactData,omitempty" form:"contactData"`
-	Attachments     map[string]string `json:"attachments,omitempty" form:"attachments"`
+	Attachments     []ChatAttachment  `json:"attachments,omitempty" form:"attachments"`
 	IsEcho          bool              `json:"isEcho,omitempty" form:"isEcho"`
 	UserEmail       string            `json:"userEmail,omitempty" form:"userEmail"`
 	TaskData        map[string]string `json:"-" form:"-"`
@@ -59,19 +64,19 @@ type ChatMessageStatusRequest struct {
 
 // ChatNewMessageToExternalRequest представляет запрос на отправку сообщения во внешний чат
 type ChatNewMessageToExternalRequest struct {
-	Cmd          string            `json:"cmd" form:"cmd"` // тип операции: newMessage
-	ProviderID   string            `json:"providerId" form:"providerId"`
-	ChatID       string            `json:"chatId,omitempty" form:"chatId"`
-	ContactPhone string            `json:"contactPhone,omitempty" form:"contactPhone"`
-	Channel      string            `json:"channel,omitempty" form:"channel"`
-	Token        string            `json:"token" form:"token"`
-	Message      string            `json:"message" form:"message"`
-	MessageID    string            `json:"messageId" form:"messageId"`
-	UserName     string            `json:"userName" form:"userName"`
-	UserLastName string            `json:"userLastName" form:"userLastName"`
-	UserIco      string            `json:"userIco" form:"userIco"`
-	TaskEmail    string            `json:"taskEmail" form:"taskEmail"`
-	Attachments  map[string]string `json:"attachments,omitempty" form:"attachments"`
+	Cmd          string           `json:"cmd" form:"cmd"` // тип операции: newMessage
+	ProviderID   string           `json:"providerId" form:"providerId"`
+	ChatID       string           `json:"chatId,omitempty" form:"chatId"`
+	ContactPhone string           `json:"contactPhone,omitempty" form:"contactPhone"`
+	Channel      string           `json:"channel,omitempty" form:"channel"`
+	Token        string           `json:"token" form:"token"`
+	Message      string           `json:"message" form:"message"`
+	MessageID    string           `json:"messageId" form:"messageId"`
+	UserName     string           `json:"userName" form:"userName"`
+	UserLastName string           `json:"userLastName" form:"userLastName"`
+	UserIco      string           `json:"userIco" form:"userIco"`
+	TaskEmail    string           `json:"taskEmail" form:"taskEmail"`
+	Attachments  []ChatAttachment `json:"attachments,omitempty" form:"attachments"`
 }
 
 type ChatResponse struct {
