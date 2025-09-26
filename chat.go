@@ -53,9 +53,9 @@ func (c *Client) ChatSendNewMessage(ctx context.Context, req *models.ChatMessage
 	}
 
 	// Добавляем вложения
-	for name, url := range req.Attachments {
-		data.Add("attachments[name]", name)
-		data.Add("attachments[url]", url)
+	for _, attachment := range req.Attachments {
+		data.Add("attachments[name]", attachment.Name)
+		data.Add("attachments[url]", attachment.URL)
 	}
 
 	// Добавляем дополнительные данные задачи
@@ -207,9 +207,9 @@ func (c *Client) ChatSendMessageToExternal(ctx context.Context, externalURL stri
 	}
 
 	// Добавляем вложения
-	for name, url := range req.Attachments {
-		data.Add("attachments[name]", name)
-		data.Add("attachments[url]", url)
+	for _, attachment := range req.Attachments {
+		data.Add("attachments[name]", attachment.Name)
+		data.Add("attachments[url]", attachment.URL)
 	}
 
 	httpReq, err := http.NewRequestWithContext(ctx, "POST", externalURL, strings.NewReader(data.Encode()))
@@ -247,9 +247,9 @@ func (c *Client) ChatSendFirstMessageToExternal(ctx context.Context, externalURL
 	}
 
 	// Добавляем вложения
-	for name, url := range req.Attachments {
-		data.Add("attachments[name]", name)
-		data.Add("attachments[url]", url)
+	for _, attachment := range req.Attachments {
+		data.Add("attachments[name]", attachment.Name)
+		data.Add("attachments[url]", attachment.URL)
 	}
 
 	httpReq, err := http.NewRequestWithContext(ctx, "POST", externalURL, strings.NewReader(data.Encode()))
