@@ -1,5 +1,7 @@
 package models
 
+import "encoding/json"
+
 type ChatAttachment struct {
 	Name string `json:"name" form:"name"`
 	URL  string `json:"url" form:"url"`
@@ -84,11 +86,14 @@ type ChatResponse struct {
 	Error string                 `json:"error,omitempty"`
 }
 
+type ChatTaskData struct {
+	Number         int  `json:"number"`
+	StatusIsActive bool `json:"statusIsActive,omitempty"`
+}
+
 type ChatTaskResponse struct {
-	Data struct {
-		Number int `json:"number"`
-	} `json:"data"`
-	Error string `json:"error,omitempty"`
+	Data  json.RawMessage `json:"data"`
+	Error string          `json:"error,omitempty"`
 }
 
 type ChatContactResponse struct {
