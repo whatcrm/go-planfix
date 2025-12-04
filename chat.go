@@ -2,7 +2,6 @@ package goplanfix
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -75,7 +74,7 @@ func (c *Client) ChatSendNewMessage(ctx context.Context, req *models.ChatMessage
 }
 
 // ChatGetTask получает номер задачи по chatId
-func (c *Client) ChatGetTask(ctx context.Context, req *models.ChatGetTaskRequest) (int, error) {
+func (c *Client) ChatGetTask(ctx context.Context, req *models.ChatGetTaskRequest) (*models.ChatTaskResponse, error) {
 	req.Cmd = "getTask"
 
 	data := url.Values{}
@@ -86,33 +85,33 @@ func (c *Client) ChatGetTask(ctx context.Context, req *models.ChatGetTaskRequest
 
 	httpReq, err := http.NewRequestWithContext(ctx, "POST", c.APIBase+utils.ChatAPIEndpoint, strings.NewReader(data.Encode()))
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	var response models.ChatTaskResponse
 	err = c.Send(httpReq, &response)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	if response.Error != "" {
-		return 0, fmt.Errorf("planfix error: %s", response.Error)
+		return nil, fmt.Errorf("planfix error: %s", response.Error)
 	}
+	//
+	//var taskData models.ChatTaskData
+	//
+	//var jsonStr string
+	//err = json.Unmarshal(response.Data, &jsonStr)
+	//if err != nil {
+	//	return 0, fmt.Errorf("failed to parse task data: %w (data: %s)", err, string(response.Data))
+	//}
+	//
+	//err = json.Unmarshal([]byte(jsonStr), &taskData)
+	//if err != nil {
+	//	return 0, fmt.Errorf("failed to parse task data JSON: %w (string: %q)", err, jsonStr)
+	//}
 
-	var taskData models.ChatTaskData
-
-	var jsonStr string
-	err = json.Unmarshal(response.Data, &jsonStr)
-	if err != nil {
-		return 0, fmt.Errorf("failed to parse task data: %w (data: %s)", err, string(response.Data))
-	}
-
-	err = json.Unmarshal([]byte(jsonStr), &taskData)
-	if err != nil {
-		return 0, fmt.Errorf("failed to parse task data JSON: %w (string: %q)", err, jsonStr)
-	}
-
-	return taskData.Number, nil
+	return &response, nil
 }
 
 // ChatGetContact получает номер контакта по contactId
