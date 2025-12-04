@@ -53,16 +53,25 @@ type TaskComments struct {
 }
 
 type Task struct {
-	ID          int    `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description,omitempty"`
-	Status      string `json:"status,omitempty"`
-	Priority    string `json:"priority,omitempty"`
-	ProjectID   int    `json:"projectId,omitempty"`
-	AssigneeID  int    `json:"assigneeId,omitempty"`
-	DueDate     string `json:"dueDate,omitempty"`
-	CreatedAt   string `json:"createdAt,omitempty"`
-	UpdatedAt   string `json:"updatedAt,omitempty"`
+	ID          int            `json:"id,omitempty"`
+	Name        string         `json:"name,omitempty"`
+	Description string         `json:"description,omitempty"`
+	Status      string         `json:"status,omitempty"`
+	Priority    string         `json:"priority,omitempty"`
+	ProjectID   int            `json:"projectId,omitempty"`
+	AssigneeID  int            `json:"assigneeId,omitempty"`
+	Assignees   *TaskAssignees `json:"assignees,omitempty"`
+	DueDate     string         `json:"dueDate,omitempty"`
+	CreatedAt   string         `json:"createdAt,omitempty"`
+	UpdatedAt   string         `json:"updatedAt,omitempty"`
+}
+
+type TaskAssignees struct {
+	Users []TaskAssignee `json:"users,omitempty"`
+}
+
+type TaskAssignee struct {
+	ID string `json:"id"`
 }
 
 type TaskListRequest struct {
