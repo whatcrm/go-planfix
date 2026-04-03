@@ -97,10 +97,8 @@ type ChatTaskResponse struct {
 }
 
 type ChatContactResponse struct {
-	Data struct {
-		Number int `json:"number"`
-	} `json:"data"`
-	Error string `json:"error,omitempty"`
+	Data  json.RawMessage `json:"data"`
+	Error string          `json:"error,omitempty"`
 }
 
 type ChatNewMessageResponse struct {
